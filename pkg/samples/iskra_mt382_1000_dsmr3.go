@@ -1,7 +1,7 @@
 package samples
 
 var (
-	IskraMT382 = "/ISk5\x02MT382-1000\r\n" +
+	IskraMT382_1000_DSMRv3 = "/ISk5\x02MT382-1000\r\n" +
 		"\r\n" +
 		"0-0:96.1.1(4B384547303034303436333935353037)\r\n" +
 		"1-0:1.8.1(12345.678*kWh)\r\n" +
@@ -24,5 +24,5 @@ var (
 )
 
 func init() {
-	All["iskra_mt382"] = IskraMT382
+	All["iskra_mt382_1000_dsmr3"] = IskraMT382_1000_DSMRv3
 }

@@ -1,6 +1,6 @@
 package samples
 
-var IskraAM550 = "/ISK5\\2M550T-1012\r\n" +
+var IskraAM550_1012 = "/ISK5\\2M550T-1012\r\n" +
 	"\r\n" +
 	"1-3:0.2.8(50)\r\n" +
 	"0-0:1.0.0(180104231941W)\r\n" +
@@ -40,5 +40,5 @@ var IskraAM550 = "/ISK5\\2M550T-1012\r\n" +
 	"!D82C\r\n"
 
 func init() {
-	All["iskra_am550"] = IskraAM550
+	All["iskra_am550t_1012"] = IskraAM550_1012
 }
