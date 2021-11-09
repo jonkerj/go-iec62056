@@ -42,16 +42,16 @@ type DSMR3Gas struct {
 }
 
 type ProfileGeneric struct {
-	ID         string    `@Code`
-	Length     string    `"(" @String ")"`
-	Code       string    `"(" @String ")"`
-	LogEntries *LogEntry `@@*`
+	ID         string      `@Code`
+	Length     string      `"(" @String ")"`
+	Code       string      `"(" @String ")"`
+	LogEntries []*LogEntry `@@*`
 }
 
 type LogEntry struct {
-	Timestamp string `"(" @String ")"`
-	Value     string `"(" @String?`
-	Unit      string `("*" @String)? ")"`
+	Timestamp string  `"(" @String ")"`
+	Value     *string `"(" @String?`
+	Unit      *string `("*" @String)? ")"`
 }
 
 var (
