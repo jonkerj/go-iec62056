@@ -14,7 +14,7 @@ var (
 			{`Checksum`, `!`, lexer.Push("Checksum")},
 		},
 		"Identification": {
-			{`IDString`, `[a-zA-Z0-9.\-_,:\x02\\]+`, nil},
+			{`IDString`, `[a-zA-Z0-9.\-_,:\x02\\ ]+`, nil},
 			{`EOL`, `\r\n`, lexer.Pop()},
 		},
 		"Value": {
