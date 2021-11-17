@@ -25,16 +25,10 @@ func pp(q parsec.Queryable, indent string, last bool) {
 }
 
 func main() {
-	ast, y := ast.GetParser()
+	root, err := ast.Parse([]byte(samples.Kamstrup_Multical66))
 
-	s := parsec.NewScanner([]byte(samples.Kamstrup_Multical66))
-	s.SetWSPattern(`^[ \t\r\n\x02\x03]+`)
-
-	root, rest := ast.Parsewith(y, s)
-
-	if root == nil {
-		panic("Nil parse!")
+	if err != nil {
+		panic(fmt.Sprintf("Parse error: %v", err))
 	}
 	pp(root, ``, true)
-	fmt.Printf("endof? %v\n", rest.Endof())
 }

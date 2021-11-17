@@ -4,14 +4,7 @@ import (
 	parsec "github.com/prataprc/goparsec"
 )
 
-func GetParser() (*parsec.AST, parsec.Parser) {
-	ast := parsec.NewAST("iec62056", 100)
-	y := MakeY(ast)
-
-	return ast, y
-}
-
-func MakeY(ast *parsec.AST) parsec.Parser {
+func makey(ast *parsec.AST) parsec.Parser {
 	slash := parsec.Atom(`/`, "SLASH")
 	meterid := parsec.Token(`[a-zA-Z0-9.\-_,:\x02\\ ]+`, "METERID")
 	parenopen := parsec.Atom(`(`, "PARENOPEN")
