@@ -25,10 +25,14 @@ func pp(q parsec.Queryable, indent string, last bool) {
 }
 
 func main() {
-	root, err := ast.Parse([]byte(samples.Kamstrup_Multical66))
+	telegram, err := ast.Parse([]byte(samples.IskraMT382_1000_DSMRv5))
 
 	if err != nil {
 		panic(fmt.Sprintf("Parse error: %v", err))
 	}
-	pp(root, ``, true)
+
+	fmt.Printf("telegram: %v\n", telegram)
+	for _, obj := range telegram.Objects {
+		fmt.Printf("obj: %v\n", obj)
+	}
 }

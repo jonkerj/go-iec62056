@@ -1,12 +1,13 @@
 package ast
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-type NilParse struct{}
-
-func (n *NilParse) Error() string {
-	return "nil parse tree"
-}
+var (
+	NilParse = errors.New("nil parse tree")
+)
 
 type PartialParse struct {
 	Position int
