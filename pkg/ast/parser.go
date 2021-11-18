@@ -15,11 +15,11 @@ func Parse(raw []byte) (*types.Telegram, error) {
 	root, rest := y(s)
 
 	if root == nil {
-		return nil, NilParse
+		return nil, ErrNilParse
 	}
 
 	if !rest.Endof() && !bytes.Equal(raw[rest.GetCursor():], []byte{'\r', '\n'}) {
-		return nil, &PartialParse{Position: rest.GetCursor(), Rest: raw[rest.GetCursor():]}
+		return nil, &ErrPartialParse{Position: rest.GetCursor(), Rest: raw[rest.GetCursor():]}
 	}
 
 	tg := root.(types.Telegram)
