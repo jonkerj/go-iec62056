@@ -38,7 +38,7 @@ func makey() parsec.Parser {
 
 	cosem := parsec.And(nodifyCosem, id, cosemValue)
 	mbus := parsec.And(nodifyMBus, id, parenOpen, timestamp, parenClose, cosemValue)
-	dsmr3gas := parsec.And(nodifyIDOnly, id, parenOpen, timestamp, parenClose, parenOpen, intV, parenClose, parenOpen, intV, parenClose, parenOpen, intV, parenClose, parenOpen, id, parenClose, parenOpen, unit, parenClose, parenOpen, value, parenClose)
+	dsmr3gas := parsec.And(nodifyDSMR3Gas, id, parenOpen, timestamp, parenClose, parenOpen, intV, parenClose, parenOpen, intV, parenClose, parenOpen, intV, parenClose, parenOpen, id, parenClose, parenOpen, unit, parenClose, parenOpen, value, parenClose)
 	profilegeneric := parsec.And(nodifyIDOnly, id, parenOpen, intV, parenClose, parenOpen, id, parenClose, logEntries)
 
 	object := parsec.OrdChoice(nodifyFirstItem, dsmr3gas, profilegeneric, mbus, cosem)

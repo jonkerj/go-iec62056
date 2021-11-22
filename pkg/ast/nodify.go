@@ -65,6 +65,24 @@ func nodifyCosemValueUnit(ns []parsec.ParsecNode) parsec.ParsecNode {
 	}
 }
 
+func nodifyDSMR3Gas(ns []parsec.ParsecNode) parsec.ParsecNode {
+	ts := ns[2].(*parsec.Terminal).GetValue()
+
+	u := ns[17].(*parsec.Terminal).GetValue()
+	v := ns[20].(*parsec.Terminal).GetValue()
+
+	val := types.Value{
+		Value: &v,
+		Unit:  &u,
+	}
+
+	return types.Object{
+		ID:        ns[0].(*parsec.Terminal).GetValue(),
+		Value:     val,
+		Timestamp: &ts,
+	}
+}
+
 func nodifyMBus(ns []parsec.ParsecNode) parsec.ParsecNode {
 	ts := ns[2].(*parsec.Terminal).GetValue()
 	return types.Object{
