@@ -11,18 +11,20 @@ func nodifyTelegram(ns []parsec.ParsecNode) parsec.ParsecNode {
 		objs = append(objs, obj.(types.Object))
 	}
 
+	c := ""
+	if _, ok := ns[2].(parsec.MaybeNone); ok == false {
+		c = ns[2].(string)
+	}
+
 	return types.Telegram{
 		Identification: ns[0].(*parsec.Terminal).GetValue(),
 		Objects:        objs,
-		Checksum:       ns[2].(*parsec.Terminal).GetValue(),
+		Checksum:       c,
 	}
 }
 
 func nodifyChecksum(ns []parsec.ParsecNode) parsec.ParsecNode {
-	if len(ns) == 1 {
-		return ns[0]
-	}
-	return []byte{}
+	return ns[0].(*parsec.Terminal).GetValue()
 }
 
 func nodifyIDOnly(ns []parsec.ParsecNode) parsec.ParsecNode {
