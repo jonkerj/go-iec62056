@@ -1,9 +1,19 @@
 package ast
 
 import (
+	"fmt"
+	"regexp"
+	"strconv"
+
 	"github.com/jonkerj/go-iec62056/pkg/types"
 	parsec "github.com/prataprc/goparsec"
 )
+
+var idSplitter *regexp.Regexp
+
+func init() {
+	idSplitter = regexp.MustCompile(`[-:.*]`)
+}
 
 func nodifyTelegram(ns []parsec.ParsecNode) parsec.ParsecNode {
 	objs := make([]types.Object, 0)
@@ -27,9 +37,56 @@ func nodifyChecksum(ns []parsec.ParsecNode) parsec.ParsecNode {
 	return ns[0].(*parsec.Terminal).GetValue()
 }
 
+func nodifyID(idS string) types.ID {
+	parts := idSplitter.Split(idS, 7)
+	ints := []byte{}
+
+	for idx, str := range parts {
+		if idx > 5 { // should not be more than 6. If so, it's an unknown format
+			break
+		}
+		i, err := strconv.ParseInt(str, 10, 8)
+		if err != nil {
+			panic(fmt.Errorf("error converting ID to byte: %w", err))
+		}
+		ints = append(ints, byte(i))
+	}
+
+	switch len(parts) {
+	case 2:
+		return types.ID{
+			A: nil,
+			B: nil,
+			C: &ints[0],
+			D: &ints[1],
+			E: nil,
+			F: nil,
+		}
+	case 5:
+		return types.ID{
+			A: &ints[0],
+			B: &ints[1],
+			C: &ints[2],
+			D: &ints[3],
+			E: &ints[4],
+		}
+	case 6:
+		return types.ID{
+			A: &ints[0],
+			B: &ints[1],
+			C: &ints[2],
+			D: &ints[3],
+			E: &ints[4],
+			F: &ints[5],
+		}
+	default:
+		panic(fmt.Sprintf("don't know how to process ID field with %d values", len(parts)))
+	}
+}
+
 func nodifyIDOnly(ns []parsec.ParsecNode) parsec.ParsecNode {
 	return types.Object{
-		ID:        ns[0].(*parsec.Terminal).GetValue(),
+		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
 		Value:     types.Value{Value: nil, Unit: nil},
 		Timestamp: nil,
 	}
@@ -37,7 +94,7 @@ func nodifyIDOnly(ns []parsec.ParsecNode) parsec.ParsecNode {
 
 func nodifyCosem(ns []parsec.ParsecNode) parsec.ParsecNode {
 	return types.Object{
-		ID:        ns[0].(*parsec.Terminal).GetValue(),
+		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
 		Value:     ns[1].(types.Value),
 		Timestamp: nil,
 	}
@@ -79,7 +136,7 @@ func nodifyDSMR3Gas(ns []parsec.ParsecNode) parsec.ParsecNode {
 	}
 
 	return types.Object{
-		ID:        ns[0].(*parsec.Terminal).GetValue(),
+		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
 		Value:     val,
 		Timestamp: &ts,
 	}
@@ -88,7 +145,7 @@ func nodifyDSMR3Gas(ns []parsec.ParsecNode) parsec.ParsecNode {
 func nodifyMBus(ns []parsec.ParsecNode) parsec.ParsecNode {
 	ts := ns[2].(*parsec.Terminal).GetValue()
 	return types.Object{
-		ID:        ns[0].(*parsec.Terminal).GetValue(),
+		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
 		Value:     ns[4].(types.Value),
 		Timestamp: &ts,
 	}

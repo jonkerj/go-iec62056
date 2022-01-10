@@ -7,7 +7,7 @@ type Telegram struct {
 }
 
 type Object struct {
-	ID        string
+	ID        ID
 	Value     Value
 	Timestamp *string
 }
@@ -15,4 +15,13 @@ type Object struct {
 type Value struct {
 	Value *string
 	Unit  *string
+}
+
+type ID struct {
+	A *uint8
+	B *uint8
+	C *uint8
+	D *uint8
+	E *uint8
+	F *uint8
 }
