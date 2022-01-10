@@ -34,7 +34,7 @@ func nodifyID(idS string) ID {
 		if idx > 5 { // should not be more than 6. If so, it's an unknown format
 			break
 		}
-		i, err := strconv.ParseInt(str, 10, 8)
+		i, err := strconv.ParseUint(str, 10, 8)
 		if err != nil {
 			panic(fmt.Errorf("error converting ID to byte: %w", err))
 		}
