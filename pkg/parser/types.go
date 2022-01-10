@@ -1,4 +1,4 @@
-package types
+package parser
 
 type Telegram struct {
 	Identification string

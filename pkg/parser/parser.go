@@ -1,13 +1,12 @@
-package ast
+package parser
 
 import (
 	"bytes"
 
-	"github.com/jonkerj/go-iec62056/pkg/types"
 	parsec "github.com/prataprc/goparsec"
 )
 
-func Parse(raw []byte) (*types.Telegram, error) {
+func Parse(raw []byte) (*Telegram, error) {
 	y := makey()
 	s := parsec.NewScanner(raw)
 	s.SetWSPattern(`^[ \t\r\n\x02\x03]+`)
@@ -22,7 +21,7 @@ func Parse(raw []byte) (*types.Telegram, error) {
 		return nil, &ErrPartialParse{Position: rest.GetCursor(), Rest: raw[rest.GetCursor():]}
 	}
 
-	tg := root.(types.Telegram)
+	tg := root.(Telegram)
 
 	return &tg, nil
 }
