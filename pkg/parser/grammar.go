@@ -11,9 +11,6 @@ func makey() parsec.Parser {
 	slash := parsec.Atom(`/`, "SLASH")
 	starSep := parsec.Atom(`*`, "STARSEP")
 
-	checksum1 := parsec.Token(`.`, "CHECKSUM1")
-	checksum4 := parsec.Token(`.{4}`, "CHECKSUM4")
-	exclamation := parsec.Atom(`!`, "EXCLAMATION")
 	id := parsec.Token(`([0-9]+-[0-9]+:[0-9]+\.)?[0-9]+.[0-9]+(\*[0-9]+)?`, "ID")
 	intV := parsec.Token(`[0-9]+`, "INT")
 	meterID := parsec.Token(`[a-zA-Z0-9.\-_,:\x02\\ ]+`, "METERID")
@@ -23,10 +20,6 @@ func makey() parsec.Parser {
 
 	// Non-terminals
 	identification := parsec.And(nodifyIdentification, slash, meterID)
-
-	checksum := parsec.Maybe(nodifyChecksum, parsec.OrdChoice(nodifyFirstItem, checksum4, checksum1))
-
-	footer := parsec.And(nodifySecondItem, exclamation, checksum)
 
 	cosemEmpty := parsec.And(nodifyCosemEmpty, parenOpen, parenClose)
 	cosemUnitless := parsec.And(nodifyCosemValue, parenOpen, value, parenClose)
@@ -44,5 +37,5 @@ func makey() parsec.Parser {
 	object := parsec.OrdChoice(nodifyFirstItem, dsmr3gas, profilegeneric, mbus, cosem)
 	objects := parsec.Kleene(nil, object)
 
-	return parsec.And(nodifyTelegram, identification, objects, footer)
+	return parsec.And(nodifyTelegram, identification, objects)
 }

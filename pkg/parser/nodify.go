@@ -20,20 +20,10 @@ func nodifyTelegram(ns []parsec.ParsecNode) parsec.ParsecNode {
 		objs = append(objs, obj.(Object))
 	}
 
-	c := ""
-	if _, ok := ns[2].(parsec.MaybeNone); ok == false {
-		c = ns[2].(string)
-	}
-
 	return Telegram{
 		Identification: ns[0].(*parsec.Terminal).GetValue(),
 		Objects:        objs,
-		Checksum:       c,
 	}
-}
-
-func nodifyChecksum(ns []parsec.ParsecNode) parsec.ParsecNode {
-	return ns[0].(*parsec.Terminal).GetValue()
 }
 
 func nodifyID(idS string) ID {

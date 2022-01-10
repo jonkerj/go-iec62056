@@ -3,7 +3,6 @@ package parser
 type Telegram struct {
 	Identification string
 	Objects        []Object
-	Checksum       string
 }
 
 type Object struct {

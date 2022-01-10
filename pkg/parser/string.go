@@ -3,7 +3,7 @@ package parser
 import "fmt"
 
 func (t Telegram) String() string {
-	return fmt.Sprintf("ID %s, %d objects, checksum=%v", t.Identification, len(t.Objects), t.Checksum)
+	return fmt.Sprintf("ID %s, %d objects", t.Identification, len(t.Objects))
 }
 
 func (o Object) String() string {
