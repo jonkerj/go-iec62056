@@ -9,7 +9,7 @@ import (
 
 func TestAllSamples(t *testing.T) {
 	for name, telegram := range samples.All {
-		b := []byte(telegram)
+		b := *telegram
 		i := bytes.LastIndexByte(b, byte('!'))
 
 		t.Run(name, func(st *testing.T) {
