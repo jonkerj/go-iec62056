@@ -6,14 +6,18 @@ func (t Telegram) String() string {
 	return fmt.Sprintf("ID %s, %d objects", t.Identification, len(t.Objects))
 }
 
-func (o Object) String() string {
+func (v Value) String() string {
 	switch {
-	case o.Value.Value != nil && o.Value.Unit != nil:
-		return fmt.Sprintf("ID %s %s %s", o.ID, *o.Value.Value, *o.Value.Unit)
-	case o.Value.Value != nil:
-		return fmt.Sprintf("ID %s %s", o.ID, *o.Value.Value)
+	case v.Value != nil && v.Unit != nil:
+		return fmt.Sprintf("%s %s", *v.Value, *v.Unit)
+	case v.Value != nil:
+		return fmt.Sprintf("%s", *v.Value)
 	}
-	return fmt.Sprintf("ID %s", o.ID)
+	return "n/a"
+}
+
+func (o Object) String() string {
+	return fmt.Sprintf("ID %s %s", o.ID, o.Value)
 }
 
 func (i ID) String() string {
