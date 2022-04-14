@@ -1,8 +1,10 @@
 package samples
 
-import _ "embed"
+import (
+	_ "embed"
+)
 
-var All map[string]*[]byte
+var All map[string]*[]byte = make(map[string]*[]byte)
 
 //go:embed easymeter_d3da
 var Easymeter_D3DA []byte
@@ -47,7 +49,6 @@ var LandisGirZCF100 []byte
 var Ziv_5CTA3 []byte
 
 func init() {
-	All := make(map[string]*[]byte)
 	All["easymeter_d3da"] = &Easymeter_D3DA
 	All["enexis_t210d"] = &Enexis_T210D
 	All["hager_ehz161wa"] = &Hager_eHZ161WA
