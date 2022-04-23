@@ -1,22 +1,45 @@
 name: tests
 on: pull_request
 jobs:
-  test:
+  golangci:
+    name: lint
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Setup Go
-      uses: actions/setup-go@v3
+      uses: WillAbides/setup-go-faster@v1.7.0
       with:
-        go-version: '1.17'
-    - name: Verify dependencies
-      run: go mod verify
-    - name: Run go vet
-      run: go vet ./...
-    - name: Staticcheck
-      uses: dominikh/staticcheck-action@v1.2.0
+        go-version: '1.18'
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v3
+  build-binaries:
+    name: build test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux]
+        goarch: [amd64, arm64]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Go
+      uses: WillAbides/setup-go-faster@v1.7.0
       with:
-        version: "2022.1"
+        go-version: '1.18'
     - name: Run go build
-      run: go build -v
+      run: |
+        BINARY_NAME=scra-${{matrix.goos}}-${{matrix.goarch}}
+        GOOS=${{matrix.goos}} GOARCH=${{matrix.goarch}} go build -o $BINARY_NAME -v
+  run-tests:
+    name: run tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Go
+      uses: WillAbides/setup-go-faster@v1.7.0
+      with:
+        go-version: '1.18'
+    - name: Run tests
+      run: go test -v ./...
