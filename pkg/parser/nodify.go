@@ -76,7 +76,7 @@ func nodifyID(idS string) ID {
 func nodifyIDOnly(ns []parsec.ParsecNode) parsec.ParsecNode {
 	return Object{
 		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
-		Value:     Value{Value: nil, Unit: nil},
+		Value:     NullValue{},
 		Timestamp: nil,
 	}
 }
@@ -90,39 +90,23 @@ func nodifyCosem(ns []parsec.ParsecNode) parsec.ParsecNode {
 }
 
 func nodifyCosemEmpty(ns []parsec.ParsecNode) parsec.ParsecNode {
-	return Value{
-		Value: nil,
-		Unit:  nil,
-	}
+	return NullValue{}
 }
 
 func nodifyCosemValue(ns []parsec.ParsecNode) parsec.ParsecNode {
-	val := ns[1].(*parsec.Terminal).GetValue()
-	return Value{
-		Value: &val,
-		Unit:  nil,
-	}
+	return NewValue(ns[1].(*parsec.Terminal).GetValue(), nil)
 }
 
 func nodifyCosemValueUnit(ns []parsec.ParsecNode) parsec.ParsecNode {
-	val := ns[1].(*parsec.Terminal).GetValue()
 	unit := ns[3].(*parsec.Terminal).GetValue()
-	return Value{
-		Value: &val,
-		Unit:  &unit,
-	}
+	return NewValue(ns[1].(*parsec.Terminal).GetValue(), &unit)
 }
 
 func nodifyDSMR3Gas(ns []parsec.ParsecNode) parsec.ParsecNode {
 	ts := ns[2].(*parsec.Terminal).GetValue()
 
-	u := ns[17].(*parsec.Terminal).GetValue()
-	v := ns[20].(*parsec.Terminal).GetValue()
-
-	val := Value{
-		Value: &v,
-		Unit:  &u,
-	}
+	unit := ns[17].(*parsec.Terminal).GetValue()
+	val := NewValue(ns[17].(*parsec.Terminal).GetValue(), &unit)
 
 	return Object{
 		ID:        nodifyID(ns[0].(*parsec.Terminal).GetValue()),
