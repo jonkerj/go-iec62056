@@ -130,7 +130,3 @@ func nodifyIdentification(ns []parsec.ParsecNode) parsec.ParsecNode {
 func nodifyFirstItem(ns []parsec.ParsecNode) parsec.ParsecNode {
 	return ns[0]
 }
-
-func nodifySecondItem(ns []parsec.ParsecNode) parsec.ParsecNode {
-	return ns[1]
-}

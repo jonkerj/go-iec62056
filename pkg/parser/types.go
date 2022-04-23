@@ -68,7 +68,7 @@ func (s StringValue) String() string {
 	if s.Unit != nil {
 		return fmt.Sprintf("%s %s", s.Value, *s.Unit)
 	} else {
-		return fmt.Sprintf("%s", s.Value)
+		return s.Value
 	}
 }
 
